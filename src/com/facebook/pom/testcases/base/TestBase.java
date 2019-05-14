@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -74,9 +75,37 @@ public class TestBase {
 		driver.manage().timeouts().implicitlyWait(Constants.IMPLICIT_WAIT,TimeUnit.SECONDS);
 		String env = prop.getProperty("env");
 		driver.get(prop.getProperty("url_"+env));
+		waitForPageLoad();
 		System.out.println("Exiting driver.getUrl");
 		
 	}
+	
+	/******************* Page Wait ******************************************/
+	
+	public void waitForPageLoad(){
+		
+		JavascriptExecutor js = ((JavascriptExecutor)driver);
+		while(!js.executeScript("return document.readyState").toString().equals("complete")){
+			
+			try {
+				System.out.println("Enter Thread.sleep");
+				Thread.sleep(2000);
+				System.out.println("Exit Thread.sleep");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Enter Thread.sleep Catch Block");
+			}
+			
+			
+			
+		}
+		
+		
+	}
+	
+	
+	
 	
 	
 	/*******************Validations ***************************************/

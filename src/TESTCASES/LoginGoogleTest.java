@@ -18,6 +18,7 @@ public class LoginGoogleTest extends TestBase {
 	@BeforeMethod
 	public void setUp(){
 		initGoogle("mozilla");
+		waitForPageLoad();
 		lgp = new LoginGooglePage();
 		
 	}
@@ -33,13 +34,31 @@ public class LoginGoogleTest extends TestBase {
 	
 	@Test
 	public void isElementPresent(){
+		/**waitForPageLoad();
 		if(isElementPresent(lgp.forgotPwd_xp)){
 			//reportPass
 			System.out.println("report Pass");
 		}else{
 			//reportFail
 			System.out.println("report Fail");
-		}
+		}**/
+		int x =0;
+		while(isElementPresent(lgp.forgotPwd_xp) & x<5){
+			 
+			try {
+				System.out.println("Enter isElement Preset While Loop");
+				Thread.sleep(1000);
+				System.out.println("Exit isElement Preset While Loop");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Enter isElement Preset Catch block");
+				e.printStackTrace();
+			  }
+			x++;
+			}
+		
+		
+		
 	}
 	
 	@Test
