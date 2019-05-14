@@ -42,6 +42,8 @@ public class LoginGoogleTest extends TestBase {
 			//reportFail
 			System.out.println("report Fail");
 		}**/
+		
+		// We trying to use while loop and see it working
 		int x =0;
 		while(isElementPresent(lgp.forgotPwd_xp) & x<5){
 			 
