@@ -14,21 +14,30 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import com.facebook.pom.utils.Constants;
+import com.facebook.pom.utils.ExtentManager;
 import com.facebook.pom.utils.FBConstants;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 public class TestBase {
 	public static WebDriver driver;
 	public static  Properties  prop;
+	public static ExtentReports extreport; //= ExtentManager.getInstance("TestBase");
+	public static  ExtentTest extnTest;
 	
 	public TestBase(){
+		extreport = ExtentManager.getInstance("TestBase");
 		
 		System.out.println("Entering TestBase");
+		extnTest = extreport.startTest("TestBase");
 		
 		try {
 			FileInputStream fs = new FileInputStream(System.getProperty("user.dir")+ "\\src\\com\\module23\\config\\config.properties");
-		    prop = new Properties();
+			extnTest.log(LogStatus.INFO,"Entering prop.load (properties)");
+			prop = new Properties();
 		    prop.load(fs);
-		
+		    extnTest.log(LogStatus.INFO,"Exiting prop.load (properties)");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,6 +46,8 @@ public class TestBase {
 		}
 		
 	System.out.println("Exiting TestBase");	
+	
+	
 		
 	}
 	
@@ -149,6 +160,15 @@ public class TestBase {
 	
 	
 	/************************Reporting*******************************************/
+	
+	public void reportPass(String msg){
+		extnTest.log(LogStatus.PASS,msg);
+		
+	}
+	
+	public void reportFail(String msg){
+		extnTest.log(LogStatus.FAIL, msg);
+	}
 	
 	
 

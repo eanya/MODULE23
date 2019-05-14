@@ -71,10 +71,16 @@ public class LoginGoogleTest extends TestBase {
 			//reportFailure
 			System.out.println("Failure reported");
 		};
+		reportPass("signInTextTest  passed");
 	}
 	
 	@AfterMethod
 	public void tearDown(){
+	if(extreport !=null){
+	   extreport.endTest(extnTest);
+	}
+		
+	extreport.flush();
 		driver.quit();
 	}
 
