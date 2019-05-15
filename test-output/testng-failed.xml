@@ -7,7 +7,7 @@
         <methods>
           <include name="signInTextTest"/>
           <include name="setUp"/>
-          <include name="isElementPresent"/>
+          <include name="tearDown"/>
         </methods>
       </class> <!-- TESTCASES.LoginGoogleTest -->
     </classes>

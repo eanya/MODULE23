@@ -1,17 +1,22 @@
 package com.facebook.pom.testcases.base;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.Assert;
 
 import com.facebook.pom.utils.Constants;
 import com.facebook.pom.utils.ExtentManager;
@@ -23,21 +28,21 @@ import com.relevantcodes.extentreports.LogStatus;
 public class TestBase {
 	public static WebDriver driver;
 	public static  Properties  prop;
-	public static ExtentReports extreport; //= ExtentManager.getInstance("TestBase");
-	public static  ExtentTest extnTest;
+	public static ExtentReports exRep; //= ExtentManager.getInstance("TestBase");
+	public static  ExtentTest exTest;
 	
 	public TestBase(){
-		extreport = ExtentManager.getInstance("TestBase");
+		exRep = ExtentManager.getInstance("TestBase");
 		
 		System.out.println("Entering TestBase");
-		extnTest = extreport.startTest("TestBase");
+		exTest = exRep.startTest("TestBase");
 		
 		try {
 			FileInputStream fs = new FileInputStream(System.getProperty("user.dir")+ "\\src\\com\\module23\\config\\config.properties");
-			extnTest.log(LogStatus.INFO,"Entering prop.load (properties)");
+			exTest.log(LogStatus.INFO,"Entering prop.load (properties)");
 			prop = new Properties();
 		    prop.load(fs);
-		    extnTest.log(LogStatus.INFO,"Exiting prop.load (properties)");
+		    exTest.log(LogStatus.INFO,"Exiting prop.load (properties)");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -162,14 +167,29 @@ public class TestBase {
 	/************************Reporting*******************************************/
 	
 	public void reportPass(String msg){
-		extnTest.log(LogStatus.PASS,msg);
+		exTest.log(LogStatus.PASS,msg);
 		
 	}
 	
 	public void reportFail(String msg){
-		extnTest.log(LogStatus.FAIL, msg);
+		exTest.log(LogStatus.FAIL, msg);
+		takeScreenShot();
+		Assert.fail();
 	}
 	
+	 
 	
-
+	public void takeScreenShot(){
+		//testcasename_iteration.jpg
+		Date d = new Date();
+		String filePath= System.getProperty("user.dir")+ "//ScreenSHOT//" + d.toString().replace(":","_").replace(" ","_")+".png";
+		File targetFile= new File(filePath);
+		File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		try {
+			FileUtils.copyFile(srcFile, targetFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		exTest.log(LogStatus.INFO,"ScreenShots->" + exTest.addScreenCapture(filePath));
+	}
 }

@@ -65,22 +65,23 @@ public class LoginGoogleTest extends TestBase {
 	
 	@Test
 	public void signInTextTest (){
-		if(!lgp.verifySignInTest(lgp.signinText_cssx,"with your Google Account")){
+		if(!lgp.verifySignInTest(lgp.signinText_cssx,"with your Google AccountX")){
 			
 			//WebElement ko = lgp.signinText_cssx;
 			//reportFailure
 			System.out.println("Failure reported");
+			reportFail("Shit failed");
 		};
 		reportPass("signInTextTest  passed");
 	}
 	
 	@AfterMethod
 	public void tearDown(){
-	if(extreport !=null){
-	   extreport.endTest(extnTest);
+	if(exRep !=null){
+	   exRep.endTest(exTest);
 	}
 		
-	extreport.flush();
+	exRep.flush();
 		driver.quit();
 	}
 
